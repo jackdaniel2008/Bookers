@@ -1,3 +1,42 @@
-<h1>Books#index1</h1>
-<p>Find me in app/views/books/index.html.erb</p>
-S
+<h1>Books</h1>
+<!--｢table｣タグを使った表の作成-->
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <!--水平方向のセルの結合-->
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <!--｢each｣メソッドで順番に繰り返し表示-->
+  <% @books.each do |book| %>
+  <tbody>
+    <tr>
+      <td><%= book.title %></td>
+      <td><%= book.body %></td>
+      <td><%= link_to 'Show', "/books/#{book.id}" %></td>
+      <td><%= link_to 'Edit', "/books/#{book.id}/edit" %></td>
+      <td><%= link_to 'Destroy', "" %></td>
+    </tr>
+  </tbody>
+  <% end %>
+</table>
+<h2>New books</h2>
+<!--｢form_with｣の基本形-->
+<%= form_with model: @book do |f| %>
+<div class="text">
+<!--単一行テキスト-->
+  <label>Title</label>
+  <%= f.text_field :title %>
+</div>
+<div class="text">
+<!--複数行テキスト-->
+  <label>Body</label>
+  <%= f.text_area :body %>
+</div>
+<!--送信ボタン-->
+<div class="form">
+  <%= f.submit 'Create Book' %>
+</div>
+<% end %>
