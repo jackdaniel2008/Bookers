@@ -6,9 +6,11 @@ class BooksController < ApplicationController
 
   def create
     # ｢view｣ファイルへの受け渡しが必要ないためローカル変数
+    # バリデーションチェックするためにインスタンス変数に変更
     book = Book.new(book_params)
     book.save
-    # ｢/bboks｣画面へリダイレクト
+    flash[:notice] = "Book was successfully created."
+    # ｢/books｣画面へリダイレクト
     redirect_to "/books/#{book.id}"
   end
 
@@ -17,9 +19,20 @@ class BooksController < ApplicationController
   end
 
   def edit
+    @book = Book.find(params[:id])
+  end
+
+  def update
+    book = Book.find(params[:id])
+    book.update(book_params)
+    flash[:notice] = "Book was successfully updated."
+    redirect_to "/books/#{book.id}"
   end
 
   def destroy
+    book = Book.find(params[:id])
+    book.destroy
+    redirect_to "/books"
   end
 
   private
