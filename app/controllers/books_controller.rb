@@ -7,11 +7,15 @@ class BooksController < ApplicationController
   def create
     # ｢view｣ファイルへの受け渡しが必要ないためローカル変数
     # バリデーションチェックするためにインスタンス変数に変更
-    book = Book.new(book_params)
-    book.save
-    flash[:notice] = "Book was successfully created."
-    # ｢/books｣画面へリダイレクト
-    redirect_to "/books/#{book.id}"
+    @book = Book.new(book_params)
+    if @book.save
+      flash[:notice] = "Book was successfully created."
+      # ｢/books｣画面へリダイレクト
+      redirect_to "/books/#{@book.id}"
+    else
+      @books = Book.all
+      render :index
+    end
   end
 
   def show
